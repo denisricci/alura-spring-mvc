@@ -1,5 +1,8 @@
 package br.com.alura.loja.model;
 
+import java.util.List;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +16,9 @@ public class Produto {
 	private String titulo;
 	private String descricao;
 	private int paginas;		
+	
+	@ElementCollection
+	List<Preco> precos;
 	
 	public Produto(String titulo, String descricao, int paginas) {
 		super();
@@ -53,5 +59,13 @@ public class Produto {
 	@Override
 	public String toString() {
 		return "Produto [id=" + id + ", titulo=" + titulo + ", descricao=" + descricao + ", paginas=" + paginas + "]";
+	}
+
+	public List<Preco> getPrecos() {
+		return precos;
+	}
+
+	public void setPrecos(List<Preco> precos) {
+		this.precos = precos;
 	}
 }
