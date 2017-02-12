@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.loja.dao.ProdutoDAO;
 import br.com.alura.loja.enums.TipoPreco;
@@ -28,13 +29,14 @@ public class ProdutoController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String salvar(Produto produto) {
-		dao.salvar(produto);
-		return "produtos/ok";
+	public ModelAndView salvar(Produto produto, RedirectAttributes redirectAttributes) {
+		dao.salvar(produto);					
+		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso!");
+		return new ModelAndView("redirect:produtos");
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String listar(Model model) {		
+	public String listar(Model model) {
 		List<Produto> produtos = dao.listar();
 		model.addAttribute("produtos", produtos);
 		return "produtos/lista";
