@@ -21,7 +21,7 @@ import br.com.alura.loja.model.Produto;
 import br.com.alura.loja.validators.ProdutoValidator;
 
 @Controller
-@RequestMapping("produtos")
+@RequestMapping("/produtos")
 public class ProdutoController {
 
 	@Autowired
