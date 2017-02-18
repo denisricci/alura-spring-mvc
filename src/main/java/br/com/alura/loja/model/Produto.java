@@ -1,5 +1,6 @@
 package br.com.alura.loja.model;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -15,7 +16,11 @@ public class Produto {
 	private int id;	
 	private String titulo;
 	private String descricao;
-	private int paginas;		
+	private int paginas;
+	//Nao sera mais necesario utilizar essa anotacao pois existe uma configuracao Default em AppWebConfiguration.class
+	//@DateTimeFormat(pattern="dd/MM/yyyy")
+	private Calendar dataLancamento;
+	
 	
 	@ElementCollection
 	List<Preco> precos;
@@ -67,5 +72,13 @@ public class Produto {
 
 	public void setPrecos(List<Preco> precos) {
 		this.precos = precos;
+	}
+
+	public Calendar getDataLancamento() {
+		return dataLancamento;
+	}
+
+	public void setDataLancamento(Calendar dataLancamento) {
+		this.dataLancamento = dataLancamento;
 	}
 }
