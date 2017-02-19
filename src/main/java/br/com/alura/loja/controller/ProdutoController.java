@@ -12,11 +12,13 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.alura.loja.dao.ProdutoDAO;
 import br.com.alura.loja.enums.TipoPreco;
+import br.com.alura.loja.infra.FileSaver;
 import br.com.alura.loja.model.Produto;
 import br.com.alura.loja.validators.ProdutoValidator;
 
@@ -26,6 +28,9 @@ public class ProdutoController {
 
 	@Autowired
 	private ProdutoDAO dao;
+	
+	@Autowired
+	private FileSaver fileSaver;
 
 	@InitBinder
 	public void initBinders(WebDataBinder webDataBinder) {
@@ -38,14 +43,19 @@ public class ProdutoController {
 		modelAndView.addObject("tipos", TipoPreco.values());
 		return modelAndView;
 	}
-
+	//para o multipartfile funcionar eh necessario uma configuracao na AppWebConfiguration(multipartResolver)
+	//e uma configuracao na ServletSpringMvc(customizeRegistration)
+	//alem disso o formulario no jsp precisa conter enctype="multipart/form-data"
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView salvar(@Valid Produto produto, BindingResult bindResult,
+	public ModelAndView salvar(MultipartFile sumario, @Valid Produto produto, BindingResult bindResult,
 			RedirectAttributes redirectAttributes) {
+				
 		if (bindResult.hasErrors()) {
 			return form(produto);
 		}
-
+		
+		String path = fileSaver.write("arquivos-sumario", sumario);
+		produto.setSumarioPath(path);
 		dao.salvar(produto);
 		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso!");
 		return new ModelAndView("redirect:produtos");
