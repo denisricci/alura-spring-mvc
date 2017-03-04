@@ -17,12 +17,13 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import br.com.alura.loja.controller.HomeController;
 import br.com.alura.loja.dao.ProdutoDAO;
 import br.com.alura.loja.infra.FileSaver;
+import br.com.alura.loja.model.CarrinhoCompras;
 
 @EnableTransactionManagement
 @EnableWebMvc
 // aqui so eh necessario declarar uma classe de cada pacote, o spring ira
 // escanear todo pacote da classe indicada
-@ComponentScan(basePackageClasses = { HomeController.class, ProdutoDAO.class, FileSaver.class })
+@ComponentScan(basePackageClasses = { HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class })
 public class AppWebConfiguration {
 
 	@Bean
@@ -30,6 +31,8 @@ public class AppWebConfiguration {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setPrefix("/WEB-INF/views/");
 		resolver.setSuffix(".jsp");
+		//resolver.setExposeContextBeansAsAttributes(true);		
+		resolver.setExposedContextBeanNames("carrinhoCompras");
 		return resolver;
 	}
 
