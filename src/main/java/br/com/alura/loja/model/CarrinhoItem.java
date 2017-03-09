@@ -1,5 +1,7 @@
 package br.com.alura.loja.model;
 
+import java.math.BigDecimal;
+
 import br.com.alura.loja.enums.TipoPreco;
 
 public class CarrinhoItem {	
@@ -11,6 +13,14 @@ public class CarrinhoItem {
 		super();
 		this.produto = produto;
 		this.tipoPreco = tipoPreco;
+	}
+	
+	public BigDecimal getPreco(){
+		return produto.precoPara(tipoPreco);
+	}
+	
+	public BigDecimal getTotal(int quantidade){		
+		return this.getPreco().multiply(new BigDecimal(quantidade));
 	}
 	
 	public Produto getProduto() {

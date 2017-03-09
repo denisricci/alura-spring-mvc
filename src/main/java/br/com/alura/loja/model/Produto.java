@@ -1,5 +1,6 @@
 package br.com.alura.loja.model;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -9,47 +10,61 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import br.com.alura.loja.enums.TipoPreco;
+
 @Entity
 public class Produto {
-	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) 
-	private int id;	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	private String titulo;
 	private String descricao;
 	private int paginas;
-	//Nao sera mais necesario utilizar essa anotacao pois existe uma configuracao Default em AppWebConfiguration.class
-	//@DateTimeFormat(pattern="dd/MM/yyyy")
+	// Nao sera mais necesario utilizar essa anotacao pois existe uma
+	// configuracao Default em AppWebConfiguration.class
+	// @DateTimeFormat(pattern="dd/MM/yyyy")
 	private Calendar dataLancamento;
-	
+
 	private String sumarioPath;
-	
+
 	@ElementCollection
 	List<Preco> precos;
-	
+
 	public Produto(String titulo, String descricao, int paginas) {
 		super();
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.paginas = paginas;
 	}
-	
-	public Produto(){}
-	
+
+	public BigDecimal precoPara(TipoPreco tipoPreco) {
+		return this.precos.stream().filter(preco -> preco.getTipo().equals(tipoPreco)).findFirst().get().getValor();
+	}
+
+	public Produto() {
+	}
+
 	public String getTitulo() {
 		return titulo;
 	}
+
 	public String getDescricao() {
 		return descricao;
 	}
+
 	public int getPaginas() {
 		return paginas;
 	}
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
 	public void setPaginas(int paginas) {
 		this.paginas = paginas;
 	}
