@@ -7,11 +7,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import br.com.alura.loja.enums.TipoPreco;
+
 @Component
-@Scope(value = WebApplicationContext.SCOPE_SESSION)
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode=ScopedProxyMode.TARGET_CLASS)
 public class CarrinhoCompras implements Serializable{
 
 	/**
@@ -23,6 +26,12 @@ public class CarrinhoCompras implements Serializable{
 
 	public void addItem(CarrinhoItem item) {
 		itens.put(item, getQuantidade(item) + 1);
+	}
+	
+	public void removeItem(Integer produtoId, TipoPreco tipoPreco){
+		Produto produto = new Produto();
+		produto.setId(produtoId);
+		itens.remove(new CarrinhoItem(produto, tipoPreco));
 	}
 
 	public int getQuantidade(CarrinhoItem item) {

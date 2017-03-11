@@ -9,12 +9,12 @@ import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.com.alura.loja.controller.HomeController;
@@ -64,6 +64,11 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter{
 	public MultipartResolver multipartResolver() {
 		return new StandardServletMultipartResolver();
 	}
+	
+	@Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
